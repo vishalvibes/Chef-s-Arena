@@ -21,6 +21,23 @@
 >>Install composer<br>
 >>put all the files in '/server' to '/var/www/html'  folder in your system<br>
 >>cofigure apache server to allow hosting all files, set AllowOverride to All and set index to index.php<br>
+>>make a file .htaccess in the '/var/www/html' folder with the following content
+```
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+ <IfModule mod_headers.c>
+   Header set Access-Control-Allow-Origin "*"
+ </IfModule>
+
+ DirectoryIndex index.php
+```
 >>Run apache server<br>
 >>Open localhost:80
 
