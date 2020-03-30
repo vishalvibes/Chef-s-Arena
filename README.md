@@ -39,7 +39,8 @@ RewriteRule . /index.php [L]
  DirectoryIndex index.php
 ```
 >>Run apache server<br>
->>Open localhost:80
+>>Open localhost:80<br>
+>>A new app should be made in codechef developers console with localhost:80 as redirect URI then in client id and client secret id should be changed in index.php and curlFunctions.php<br>
 
 <b>Setting up react server is not required</b>
 
