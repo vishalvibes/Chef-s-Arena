@@ -11,9 +11,9 @@
 <b>setting up database if importing doesn't work</b><br>
 >>Open mysql as root<br>
 >>type the following commands <br>
->>>```'CREATE DATABASE testreact;```<br>
->>>```'USE testreact;```<br>
->>>```'CREATE TABLE users(id varchar(50),password varchar(50),token varchar(100), refresh varchar(100));```<br>
+>>>```CREATE DATABASE testreact;```<br>
+>>>```USE testreact;```<br>
+>>>```CREATE TABLE users(id varchar(50),password varchar(50),token varchar(100), refresh varchar(100));```<br>
 >>then create a user named 'my_user'@'localhost' with password as 'password' and grant all permissions<br>
 >>for more reference see /server/includes/connection.php<br>
 
