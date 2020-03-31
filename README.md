@@ -1,6 +1,6 @@
 # Chef-s-Arena
 
-<b>For trying up the app visit http://35.244.16.232/<b><br><br>
+<b>For trying the app visit http://35.244.16.232/<b><br><br>
  
 <b>setting up database from dump from mySQL workbench dump</b><br>
 >>Open mysql workbench<br>
@@ -11,9 +11,9 @@
 <b>setting up database if importing doesn't work</b><br>
 >>Open mysql as root<br>
 >>type the following commands <br>
->>>'CREATE DATABASE testreact;<br>
->>>'USE testreact;<br>
->>>'CREATE TABLE users(id varchar(50),password varchar(50),token varchar(100), refresh varchar(100));<br>
+>>>```'CREATE DATABASE testreact;```<br>
+>>>```'USE testreact;```<br>
+>>>```'CREATE TABLE users(id varchar(50),password varchar(50),token varchar(100), refresh varchar(100));```<br>
 >>then create a user named 'my_user'@'localhost' with password as 'password' and grant all permissions<br>
 >>for more reference see /server/includes/connection.php<br>
 
