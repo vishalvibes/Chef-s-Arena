@@ -2,8 +2,8 @@
  
 <b>If you have Redis, mysql, php 7.4, composer and node installed properly, then use the below commands</b><br><br>
 TO INSTALL EVERYTHING (REQUIRED ONLY ONCE)<br>
-```sudo npm install
-sudo npm run install```
+```sudo npm install```<br>
+```sudo npm run install```
 <br>
 TO RUN DEVELOPMENT SERVER<br>
 ```npm run dev```<br>
