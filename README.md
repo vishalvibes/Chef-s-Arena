@@ -1,6 +1,4 @@
 # Chef-s-Arena
-
-<b>For trying the app visit http://35.244.16.232/<b><br><br>
  
 <b>setting up database from dump from mySQL workbench dump</b><br>
 >>Open mysql workbench<br>
