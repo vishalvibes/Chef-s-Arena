@@ -12,13 +12,15 @@
 <b>TO BUILD A DEPLOYMENT</b><br>
 ```npm run build```<br><br>
 <br>
-<b>setting up database from dump from mySQL workbench dump</b><br>
+<br>
+<b>React server will start on port 3000 and php server will start on port 8000. Please also start redis server and mysql server.</b><br><br>
+<b>Setting up database from dump from mySQL workbench dump</b><br>
 >>Open mysql workbench<br>
 >>Go to 'server' then 'import database'<br>
 >>check if a database named 'testreact' with a table named 'users' and a user on localhost named 'my_user' is created<br>
 
 
-<b>setting up database if importing doesn't work</b><br>
+<b>Setting up database if importing doesn't work</b><br>
 >>Open mysql as root<br>
 >>type the following commands <br>
 >>>```CREATE DATABASE testreact;```<br>
