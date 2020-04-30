@@ -12,8 +12,8 @@
 <b>TO BUILD A DEPLOYMENT</b><br>
 ```npm run build```<br><br>
 <br>
-<br>
-<b>React server will start on port 3000 and php server will start on port 8000. Please also start redis server and mysql server.</b><br><br>
+
+<b>React server will start on port 3000 and php server will start on port 8000.<br> Please also start redis server and mysql server.</b><br><br><br>
 <b>Setting up database from dump from mySQL workbench dump</b><br>
 >>Open mysql workbench<br>
 >>Go to 'server' then 'import database'<br>
