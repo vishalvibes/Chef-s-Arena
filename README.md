@@ -1,15 +1,15 @@
 # Chef-s-Arena
  
-<b>If you have Redis, mysql, php 7.4, composer and node installed properly, then use the below commands</b>
-TO INSTALL EVERYTHING (REQUIRED ONLY ONCE)
-```sudo npm install```
-```sudo npm run install```
+<b>If you have Redis, mysql, php 7.4, composer and node installed properly, then use the below commands</b><br><br>
+TO INSTALL EVERYTHING (REQUIRED ONLY ONCE)<br>
+```sudo npm install
+sudo npm run install```
+<br>
+TO RUN DEVELOPMENT SERVER<br>
+```npm run dev```<br>
 
-TO RUN DEVELOPMENT SERVER
-```npm run dev```
-
-TO BUILD A DEPLOYMENT
-```npm run build```
+TO BUILD A DEPLOYMENT<br>
+```npm run build```<br><br>
 
 <b>setting up database from dump from mySQL workbench dump</b><br>
 >>Open mysql workbench<br>
