@@ -1,0 +1,15 @@
+{
+    "name": "chaos/testreat",
+    "description": "none",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.0",
+        "guzzlehttp/psr7": "^1.6",
+        "http-interop/http-factory-guzzle": "^1.0",
+        "laminas/laminas-diactoros": "^2.2",
+        "guzzlehttp/guzzle": "^6.5",
+        "vlucas/phpdotenv": "^3.6",
+        "elasticsearch/elasticsearch": "^7.6",
+        "ipinfo/ipinfo": "^1.1"
+    }
+}
