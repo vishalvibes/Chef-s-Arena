@@ -4,7 +4,9 @@
   "description": "Chef's Arena is a website I made for CodeChef backend developer hiring hackathon",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+  	"test-client":"cd frontend && npm run test",
+  	"test-server":"cd backend && vendor/bin/phpunit",
+    "test": "npm run test-server && npm run test-client",
     "build": "rm -rfv deployment/*;npm run build --prefix frontend;cp -rfv frontend/build/* deployment;cp -rfv backend/* deployment;cp -rfv backend/.htaccess deployment;",
     "client": "cd frontend && REACT_APP_URL=http://localhost:8000 npm start",
     "server": "cd backend && php -S localhost:8000",
