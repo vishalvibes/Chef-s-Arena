@@ -11,5 +11,8 @@
         "vlucas/phpdotenv": "^3.6",
         "elasticsearch/elasticsearch": "^7.6",
         "ipinfo/ipinfo": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
