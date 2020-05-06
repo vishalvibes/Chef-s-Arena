@@ -10,7 +10,11 @@
 ```npm run dev```<br>
 <br>
 <b>TO BUILD A DEPLOYMENT</b><br>
-```npm run build```<br><br>
+```npm run build```<br>
+
+<b>TO RUN TESTS</b><br>
+```npm run test```<br>
+<br><br>
 
 <b>React server will start on port 3000 and php server will start on port 8000.<br> Please also start redis server, elasticsearch and mysql server on their default ports if required.</b><br><br><br>
 <b>Setting up database from dump from mySQL workbench dump</b><br>
