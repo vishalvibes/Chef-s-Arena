@@ -24,6 +24,17 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: sudo apt-get update -y #using the -y option will automatically accept the conditions of the source update
+    - run: sudo apt-get install apache2 -y #install apache
+    - run: sudo systemctl start apache2.service #start apache
+    - run: sudo apt-get install mysql-server -y
+    - run: sudo apt-get install php -y
+    - run: sudo apt-get install -y php-{bcmath,bz2,intl,gd,mbstring,mysql,zip} && sudo apt-get install libapache2-mod-php -y
+    - run: sudo apt-get install php-curl
+    - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - run: php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    - run: php composer-setup.php
+    - run: php -r "unlink('composer-setup.php');"
     - run: npm run install
     - run: cd backend && vendor/bin/phpunit
     - run: npm run build --if-present
