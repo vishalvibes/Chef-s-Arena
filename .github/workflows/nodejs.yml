@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [10.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,9 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: sudo apt-get update -y #using the -y option will automatically accept the conditions of the source update
-    - run: sudo apt-get install apache2 -y #install apache
-    - run: sudo systemctl start apache2.service #start apache
-    - run: sudo apt-get install mysql-server -y
     - run: sudo apt-get install php -y
     - run: sudo apt-get install -y php-{bcmath,bz2,intl,gd,mbstring,mysql,zip} && sudo apt-get install libapache2-mod-php -y
     - run: sudo apt-get install php-curl
