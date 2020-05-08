@@ -8,6 +8,7 @@ import ContestList from "./components/contestList";
 import Problem from "./components/problem";
 import Submit from "./components/submit";
 import Ranklist from "./components/ranklist";
+import Donate from "./components/donate";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -416,6 +417,7 @@ class App extends Component {
               <Sidebar username={this.state.username} password={this.state.password} />
               <input type="image" style={cavStyle} src={ca_v} alt="Submit" />
               {this.render_searchbar()}
+              <Donate />
             </Route>
 
             <Route exact path="/#">
@@ -423,6 +425,7 @@ class App extends Component {
               <Sidebar username={this.state.username} password={this.state.password} />
               <input type="image" style={cavStyle} src={ca_v} alt="Submit" />
               {this.render_searchbar()}
+              <Donate />
             </Route>
 
             <Route exact path="/contest">
@@ -451,6 +454,7 @@ class App extends Component {
         </Router>
 
         <Login username={this.state.username} password={this.state.password} logout={this.logout} />
+        
       </React.StrictMode >
     );
   }
