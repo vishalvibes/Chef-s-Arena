@@ -1,7 +1,6 @@
 # Chef-s-Arena
 
-<b>The link of website is down, because due to COVID 19 google is not letting VMs and k8s clusters to be started in asia-south(a,b,c) i.e. - India Zone </b><br><br><br>
-
+<b>The link of website is down, because due to COVID 19 google is not letting VMs and k8s clusters to be started in asia-south(a,b,c) i.e. - India Zone.</b><br><br><br>
 <b>If you have Redis,elastic stack, mysql, php 7.4, composer and node installed properly, then use the below commands</b><br><br><br>
 <b>TO INSTALL EVERYTHING (REQUIRED ONLY ONCE)</b><br>
 ```sudo npm install```<br>
