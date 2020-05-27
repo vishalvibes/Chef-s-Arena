@@ -1,7 +1,7 @@
 # Chef-s-Arena
 
-<b>The link of website is https://codechef.tech/</b><br><br><br>
-(Link is stopped currently to save exhausting my cloud credits)
+<b>The link of website is https://codechef.tech/</b><br>(Link is stopped currently to save exhausting my cloud credits)<br><br>
+
 
 <b>If you have Redis,elastic stack, mysql, php 7.4, composer and node installed properly, then use the below commands</b><br><br><br>
 <b>TO INSTALL EVERYTHING (REQUIRED ONLY ONCE)</b><br>
