@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams,
     Redirect
 } from "react-router-dom";
 import load from "./load.svg";

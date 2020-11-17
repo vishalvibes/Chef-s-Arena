@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import search from "./search.png";
 import "./autoCompleteText.css";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useRouteMatch,
-  useParams
 } from "react-router-dom";
 import Fuse from 'fuse.js';
 
@@ -47,7 +42,7 @@ class Searchbar extends Component {
         value = value.substring(0, value.length - 1);
       }
       // const regex = new RegExp(`${value}`, "i");
-      this.state.display = this.props.allContestCode.map((currentvalue, index, array) => { return (this.props.allContestName[index].concat(" ").concat("(").concat(this.props.allContestCode[index])).concat(")") });
+      this.setState({display: this.props.allContestCode.map((currentvalue, index, array) => { return (this.props.allContestName[index].concat(" ").concat("(").concat(this.props.allContestCode[index])).concat(")") }) });
       // suggestions = this.state.display.filter(v => regex.test(v)).slice(0, 4);
 
       //implementing fuzzy search
@@ -176,14 +171,11 @@ class Searchbar extends Component {
       margin: 0,
       top: "51%",
       left: "36%",
-      padding: 0,
       width: "50%",
       padding: "12px 0%",
       fontWeight: "Bold",
       fontSize: 24,
       position: "fixed"
-      // outlineWidth: 0
-      // overflow: "auto"
     };
 
 

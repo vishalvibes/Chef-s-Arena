@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 import Sidebar from "./components/sidebar.jsx";
 import Searchbar from "./components/searchbar";
@@ -9,18 +8,15 @@ import Problem from "./components/problem";
 import Submit from "./components/submit";
 import Ranklist from "./components/ranklist";
 import Donate from "./components/donate";
+import Tags from "./components/Tags/tags";
 import axios from "axios";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
-  useRouteMatch,
-  useParams,
-  Redirect
 } from "react-router-dom";
 import load from "./components/load.svg";
-// import Preload from "./components/preload";
 import ca_v from "./components/ca_v.png";
 import ca_h from "./components/ca_h.png";
 import Typewriter from 'typewriter-effect';
@@ -107,10 +103,10 @@ class App extends Component {
     var ca = decodedCookie.split(';');
     for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) === ' ') {
         c = c.substring(1);
       }
-      if (c.indexOf(name) == 0) {
+      if (c.indexOf(name) === 0) {
         return c.substring(name.length, c.length);
       }
     }
@@ -124,7 +120,7 @@ class App extends Component {
 
       if (this.state.username.localeCompare("error:not logged in") === 0) {
         this.setState({ username: this.getCookie("username") });
-        this.setState({ password: this.getCookie("password") });
+        this.setState({ password: this.getCookie("password") });  
       }
     }
   }
@@ -278,7 +274,7 @@ class App extends Component {
     else if (this.state.username.localeCompare(". . .") === 0) {
     }
 
-    else if (this.state.username.localeCompare(this.getCookie("username")) != 0) {
+    else if (this.state.username.localeCompare(this.getCookie("username")) !== 0) {
       this.logout();
       alert("You are logged out, please login again to continue");
     }
@@ -447,6 +443,10 @@ class App extends Component {
 
             <Route exact path="/ranklist">
               <Ranklist problem_details={this.state.problem_details} problem_code={this.state.problem_code} contest_code={this.state.contest_code} ranklist={this.state.ranklist} />
+            </Route>
+
+            <Route exact path="/tags">
+              <Tags problem_details={this.state.problem_details} problem_code={this.state.problem_code} contest_code={this.state.contest_code}/>
             </Route>
 
           </Switch>

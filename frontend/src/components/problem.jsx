@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
     Link,
-    useRouteMatch,
-    useParams,
     Redirect
 } from "react-router-dom";
 // import { Markdown } from 'react-showdown';
@@ -23,11 +18,11 @@ class Problem extends Component {
 
     render_submissions() {
         if (this.props.submissions.status === "NO") {
-            return <a>Loading...</a>;
+            return <div>Loading...</div>;
         }
 
         return (
-            this.props.submissions.result.data.content.slice(0, 8).map(submission => { return (<a >{submission.username}({submission.score} points)</a>) })
+            this.props.submissions.result.data.content.slice(0, 8).map(submission => { return (<div >{submission.username}({submission.score} points)</div>) })
         );
     }
 
@@ -81,8 +76,25 @@ class Problem extends Component {
             textDecoration: "none",
             display: "inline-block",
             fontWeight: "Bold",
-            marginLeft: "10%",
             marginBottom: "10%",
+            marginLeft: "10%",
+            fontSize: 24,
+            outlineWidth: 0
+        };
+
+        const buttonStyle2 = {
+            top: "0%",
+            backgroundColor: "black" /* Green */,
+            border: "2.5 px solid black",
+            height: "10%",
+            color: "white",
+            padding: "15px 32px",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "inline-block",
+            fontWeight: "Bold",
+            marginBottom: "10%",
+            marginLeft: "15%",
             fontSize: 24,
             outlineWidth: 0
         };
@@ -107,7 +119,13 @@ class Problem extends Component {
                         Make Submission
                 </button>
                 </Link>
-
+                
+                <Link to="/tags">
+                    <button style={buttonStyle2} type="button">
+                        Add Tags
+                </button>
+                </Link>
+                
                 <div style={{}}>
                     < div style={{ paddingRight: "25%", paddingLeft: "5%", top: "30%" }}>
                         {this.render_problem()}

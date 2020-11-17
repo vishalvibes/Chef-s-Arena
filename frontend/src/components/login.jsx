@@ -71,7 +71,7 @@ class Login extends Component {
             {this.props.username}
           </button>
           <div className="dropdown-content">
-            <a style={logoutStyle} onClick={this.props.logout.bind(this)} href="#">Logout</a>
+            <div style={logoutStyle} onClick={this.props.logout.bind(this)} href="#">Logout</div>
           </div>
         </div>
       );
