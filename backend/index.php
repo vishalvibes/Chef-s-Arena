@@ -272,7 +272,78 @@ $app->get('/problem', function (Request $request, Response $response, $args) {
 });
 
 
+$app->get('/tag_list', function (Request $request, Response $response, $args) {
+    
+    if(isset($_GET['username'])){
+        
+        $result = get_all_tags($_GET['username']);
+        $response->getBody()->write(json_encode($result));
+        $response = $response->withHeader('Content-Type', 'application/json');
+        
+    }
 
+    else{
+        $file = './index.html';
+        if (file_exists($file)) {
+            $response->getBody()->write(file_get_contents($file));
+            $response = $response->withHeader('Content-Type', 'text/html');
+            return $response;
+        } else {
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+    }
+    
+    return $response;
+});
+
+
+$app->post('/create_tag', function (Request $request, Response $response, $args) {
+    
+    if(isset($_POST['username']) && isset($_POST['tag'])){
+        
+        $result = create_new_tag($_POST['username'], $_POST['tag'], $_POST['category'], $_POST['tag_description']);
+        $response->getBody()->write("new tag created");
+        $response = $response->withHeader('Content-Type', 'application/json');
+        
+    }
+
+    else{
+        $file = './index.html';
+        if (file_exists($file)) {
+            $response->getBody()->write(file_get_contents($file));
+            $response = $response->withHeader('Content-Type', 'text/html');
+            return $response;
+        } else {
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+    }
+    
+    return $response;
+});
+
+$app->post('/add_tag_to_problem', function (Request $request, Response $response, $args) {
+    
+    if(isset($_POST['username']) && isset($_POST['tag'])){
+        
+        $result = add_tag_to_problem($_POST['username'], $_POST['tag'], $_POST['problem_code']);
+        $response->getBody()->write("tag added");
+        $response = $response->withHeader('Content-Type', 'application/json');
+        
+    }
+
+    else{
+        $file = './index.html';
+        if (file_exists($file)) {
+            $response->getBody()->write(file_get_contents($file));
+            $response = $response->withHeader('Content-Type', 'text/html');
+            return $response;
+        } else {
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+    }
+    
+    return $response;
+});
 
 $app->get('/', function (Request $request, Response $response, $args) {
     

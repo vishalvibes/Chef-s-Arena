@@ -309,7 +309,6 @@ class App extends Component {
               if (res.data.status.localeCompare("OK") === 0) {
                 console.log("recieved problem");
                 this.getSubmissions(code);
-                // this.mathJax();
               }
             })
         }
@@ -355,15 +354,6 @@ class App extends Component {
     }
 
   }
-  // mathJax() {
-  //   const script = document.createElement("script");
-
-  //   script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML";
-  //   script.async = true;
-
-  //   document.body.appendChild(script);
-  //   console.log("mathJax Ran");
-  // }
 
   render() {
 

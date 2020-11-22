@@ -50,8 +50,6 @@ function location_details(){
 
 }
 
-
-
 function store_search_data($username, $code){
     $location = location_details();
     $random = uniqid();
@@ -184,3 +182,54 @@ function get_token_from_db($username, $password){
     }
 }
 
+function create_new_tag($username, $tag, $category, $tag_description){
+    
+    include 'includes/connection.php';
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    } 
+
+    $stmt = $db->prepare("INSERT INTO tags (username, tag, category, tag_description) VALUES (?,?,?,?);");
+    $stmt->bind_param("ssss",$username, $tag, $category, $tag_description);
+    $stmt->execute();
+    $stmt->close();
+    $db->close();
+
+}
+
+function add_tag_to_problem($username, $tag, $problem_code){
+    
+    include 'includes/connection.php';
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    } 
+
+    $stmt = $db->prepare("INSERT INTO problems (username, tag, problem_code) VALUES (?,?,?);");
+    $stmt->bind_param("sss",$username, $tag, $problem_code);
+    $stmt->execute();
+    $stmt->close();
+    $db->close();
+
+}
+
+function get_all_tags($username){
+    
+    include 'includes/connection.php';
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    } 
+
+    $stmt = $db->prepare("SELECT * FROM tags;");
+    $stmt->bind_param();
+    $stmt->execute();
+    $result = $stmt->get_result(); 
+    $tag_list = $result->fetch_all();
+    $stmt->close();
+    $db->close();
+    
+    return $tag_list;
+
+}

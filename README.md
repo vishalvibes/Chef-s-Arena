@@ -27,13 +27,34 @@
 
 
 <b>Setting up database if importing doesn't work</b><br>
->>Open mysql as root<br>
+>>Open mySQL as root<br>
 >>type the following commands <br>
+>>
 >>>```CREATE DATABASE testreact;```<br>
 >>>```USE testreact;```<br>
 >>>```CREATE TABLE users(id varchar(50),password varchar(50),token varchar(100), refresh varchar(100));```<br>
->>then create a user named 'my_user'@'localhost' with password as 'password' and grant all permissions<br>
->>for more reference see /server/includes/connection.php<br>
+>>>
+>>>```
+>>>CREATE TABLE tags(
+>>>    -> username VARCHAR(50),
+>>>    -> tag VARCHAR(50),
+>>>    -> tag_description VARCHAR(200),
+>>>    -> category VARCHAR(50),
+>>>    -> PRIMARY KEY (username, tag)
+>>>    -> );
+>>>```
+>>>
+>>>```
+>>>CREATE TABLE problems(
+>>>    -> username VARCHAR(50),
+>>>    -> tag VARCHAR(50),
+>>>    -> problem_code VARCHAR(50),
+>>>    -> PRIMARY KEY (username, tag)
+>>>    -> );
+>>>```
+>>>
+>>>then create a user named 'my_user'@'localhost' with password as 'password' and grant all permissions<br>
+>>>for more reference see /server/includes/connection.php<br>
 
 <b>Setting up Redis</b><br>
 https://redis.io/download<br>
