@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import './App.css';
+import "./App.css";
 import Sidebar from "./components/sidebar.jsx";
 import Searchbar from "./components/searchbar";
 import Login from "./components/login";
@@ -9,21 +9,16 @@ import Submit from "./components/submit";
 import Ranklist from "./components/ranklist";
 import Donate from "./components/donate";
 import Tags from "./components/Tags/tags";
+import CreateTag from "./components/CreateTag/createtag";
 import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import load from "./components/load.svg";
 import ca_v from "./components/ca_v.png";
 import ca_h from "./components/ca_h.png";
-import Typewriter from 'typewriter-effect';
-require('dotenv').config();
+import Typewriter from "typewriter-effect";
+require("dotenv").config();
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.getContest = this.getContest.bind(this);
@@ -36,55 +31,66 @@ class App extends Component {
       password: "error:not logged in",
       contest_fetched: 0,
       contest_code: "error:nothing",
-      contest_details: { "status": "NO" },
+      contest_details: { status: "NO" },
       problem_code: "error:nothing",
-      problem_details: { "status": "NO" },
-      ranklist: { "status": "NO" },
-      submissions: { "status": "NO" }
-
+      problem_details: { status: "NO" },
+      ranklist: { status: "NO" },
+      submissions: { status: "NO" },
     };
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+  
+  componentDidMount(){
+    this.getAllContest();
+    this.fetchPublicTags();
+  }
+
+  fetchPublicTags(){
+    axios
+          .get(`https://www.codechef.com/get/tags/problems/`, {
+
+          })
+          .then((res) => {
+            console.log(res);
+          });
   }
 
   getQueryParams = (params, url) => {
-
     let href = url;
     //this expression is to get the query strings
-    let reg = new RegExp('[?&]' + params + '=([^&#]*)', 'i');
+    let reg = new RegExp("[?&]" + params + "=([^&#]*)", "i");
     let queryString = reg.exec(href);
     return queryString ? queryString[1] : null;
   };
 
   login() {
     if (this.state.username.localeCompare("error:not logged in") === 0) {
-      let temp = this.getQueryParams('code', window.location.href);
+      let temp = this.getQueryParams("code", window.location.href);
 
       if (temp != null) {
         console.log(temp);
 
         this.setState({ username: ". . ." });
-        axios.get(process.env.REACT_APP_URL + `/getuser`, {
-          params: {
-            code: temp
-          }
-        })
-          .then(res => {
+        axios
+          .get(process.env.REACT_APP_URL + `/getuser`, {
+            params: {
+              code: temp,
+            },
+          })
+          .then((res) => {
             console.log(res.data.username);
             if (res.data.username != null) {
-
               this.setCookie("username", res.data.username, 180);
               this.setCookie("password", res.data.password, 180);
               this.setState({ username: res.data.username });
               this.setState({ password: res.data.password });
               // window.location.href = "/";
-            }
-            else {
+            } else {
               console.log("wrong code");
               this.login();
-
             }
-          })
-      }
-      else {
+          });
+      } else {
         console.log("no params");
       }
     }
@@ -92,7 +98,7 @@ class App extends Component {
 
   setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
     var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
@@ -100,10 +106,10 @@ class App extends Component {
   getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
+    var ca = decodedCookie.split(";");
     for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
-      while (c.charAt(0) === ' ') {
+      while (c.charAt(0) === " ") {
         c = c.substring(1);
       }
       if (c.indexOf(name) === 0) {
@@ -115,12 +121,10 @@ class App extends Component {
 
   auto_login() {
     if (this.getCookie("username") === "") {
-
     } else {
-
       if (this.state.username.localeCompare("error:not logged in") === 0) {
         this.setState({ username: this.getCookie("username") });
-        this.setState({ password: this.getCookie("password") });  
+        this.setState({ password: this.getCookie("password") });
       }
     }
   }
@@ -129,134 +133,127 @@ class App extends Component {
     this.setState({ username: "error:not logged in" });
     this.setCookie("username", "", -1);
     this.setState({ contest_fetched: 0 });
-    window.location.href = "/"
+    window.location.href = "/";
   }
 
   getAllContest() {
     if (this.state.username.localeCompare("error:not logged in") === 0) {
-    }
-    else {
-      if (this.state.password.localeCompare("error:not logged in") === 0) { }
-      else {
+    } else {
+      if (this.state.password.localeCompare("error:not logged in") === 0) {
+      } else {
         if (this.state.username.localeCompare(". . .") === 0) {
-        }
-        else {
+        } else {
           if (this.state.contest_fetched === 0) {
             this.setState({ contest_fetched: 1 });
-            axios.get(process.env.REACT_APP_URL + `/contestlist`, {
-              params: {
-                username: this.state.username,
-                password: this.state.password
-              }
-            })
-              .then(res => {
+            axios.create({
+              withCredentials: true
+            })            
+              .get(process.env.REACT_APP_URL + `/contestlist`, {
+               
+              })
+              .then((res) => {
                 console.log(res.data);
 
-                this.setState({ allContestCode: res.data.result.data.content.contestList.map(contest => { return contest.code }) });
-                this.setState({ allContestName: res.data.result.data.content.contestList.map(contest => { return contest.name }) });
+                this.setState({
+                  allContestCode: res.data.result.data.content.contestList.map(
+                    (contest) => {
+                      return contest.code;
+                    }
+                  ),
+                });
+                this.setState({
+                  allContestName: res.data.result.data.content.contestList.map(
+                    (contest) => {
+                      return contest.name;
+                    }
+                  ),
+                });
 
                 if (res.data.status.localeCompare("OK") === 0) {
                   console.log("recieved all-contest");
-                }
-                else {
+                } else {
                   this.logout();
                 }
-              })
+              });
           }
         }
       }
     }
   }
 
-
   getContest(code) {
-
     if (this.state.username.localeCompare("error:not logged in") === 0) {
-    }
-    else {
+    } else {
       if (this.state.username.localeCompare(". . .") === 0) {
-      }
-      else {
+      } else {
         if (this.state.contest_code.localeCompare(code) === 0) {
-        }
-        else {
+        } else {
           this.setState({ contest_code: code });
           this.setCookie("contest_code", code, 180);
-          this.setState({ contest_details: { "status": "NO" } });
-          axios.get(process.env.REACT_APP_URL + `/contest`, {
-            params: {
-              username: this.state.username,
-              password: this.state.password,
-              contest: code
-            }
-          })
-            .then(res => {
-
-
+          this.setState({ contest_details: { status: "NO" } });
+          axios.create({
+            withCredentials: true
+          })      
+            .get(process.env.REACT_APP_URL + `/contest`, {
+              
+            })
+            .then((res) => {
               this.setState({ contest_details: res.data });
               console.log(this.state.contest_details);
               if (res.data.status.localeCompare("OK") === 0) {
                 console.log("recieved contest");
                 this.getRanklist(code);
-              }
-              else {
+              } else {
                 this.logout();
               }
-            })
+            });
         }
       }
     }
   }
 
-
-
   getRanklist(code) {
     console.log("fetching ranklist");
-    axios.get(process.env.REACT_APP_URL + `/ranklist`, {
-      params: {
-        username: this.state.username,
-        password: this.state.password,
-        contest: code
-      }
-    })
-      .then(res => {
-
+    axios.create({
+      withCredentials: true
+    })       
+      .get(process.env.REACT_APP_URL + `/ranklist`, {
+      
+      })
+      .then((res) => {
         this.setState({ ranklist: res.data });
         console.log(this.state.ranklist);
         if (res.data.status.localeCompare("OK") === 0) {
           console.log("recieved ranklist");
-        }
-
-        else {
+        } else {
           this.logout();
         }
-      })
+      });
   }
-
 
   getSubmissions(code) {
     console.log("fetching submissions");
-    axios.get(process.env.REACT_APP_URL + `/submission`, {
-      params: {
-        username: this.state.username,
-        password: this.state.password,
-        contest: this.state.contest_code,
-        problem: code
-      }
+    axios.create({
+      withCredentials: true
     })
-      .then(res => {
-
+      .get(process.env.REACT_APP_URL + `/submission`, {
+        params: {
+          username: this.state.username,
+          password: this.state.password,
+          contest: this.state.contest_code,
+          problem: code,
+        },
+      })
+      .then((res) => {
         this.setState({ submissions: res.data });
         console.log(this.state.submissions);
         if (res.data.status.localeCompare("OK") === 0) {
           console.log("recieved submissions");
-        }
-        else {
+        } else {
           this.logout();
         }
-      })
+      });
   }
-
 
   dev_login() {
     if (this.state.username.localeCompare("error:not logged in") === 0) {
@@ -266,58 +263,46 @@ class App extends Component {
     }
   }
 
-
   auto_logout() {
     if (this.state.username.localeCompare("error:not logged in") === 0) {
-    }
-
-    else if (this.state.username.localeCompare(". . .") === 0) {
-    }
-
-    else if (this.state.username.localeCompare(this.getCookie("username")) !== 0) {
+    } else if (this.state.username.localeCompare(". . .") === 0) {
+    } else if (
+      this.state.username.localeCompare(this.getCookie("username")) !== 0
+    ) {
       this.logout();
       alert("You are logged out, please login again to continue");
     }
   }
 
-
   getProblem(code) {
-
     if (this.state.username.localeCompare("error:not logged in") === 0) {
-    }
-    else {
+    } else {
       if (this.state.username.localeCompare(". . .") === 0) {
-      }
-      else {
+      } else {
         if (this.state.problem_code.localeCompare(code) === 0) {
-        }
-        else {
+        } else {
           this.setState({ problem_code: code });
           this.setCookie("problem_code", code, 180);
-          axios.get(process.env.REACT_APP_URL + `/problem`, {
-            params: {
-              username: this.state.username,
-              password: this.state.password,
-              contest: this.state.contest_code,
-              problem: code
-            }
-          })
-            .then(res => {
-
+          axios.create({
+            withCredentials: true
+          })     
+            .get(process.env.REACT_APP_URL + `/problem`, {
+             
+            })
+            .then((res) => {
               this.setState({ problem_details: res.data });
               console.log(this.state.problem_details);
               if (res.data.status.localeCompare("OK") === 0) {
                 console.log("recieved problem");
                 this.getSubmissions(code);
               }
-            })
+            });
         }
       }
     }
   }
 
   render_searchbar() {
-
     const submitStyle = {
       margin: 0,
       top: "43%",
@@ -329,34 +314,54 @@ class App extends Component {
       height: "10%",
       position: "fixed",
       outlineWidth: 0,
-      overflow: "auto"
+      overflow: "auto",
     };
 
     if (this.state.allContestCode.length === 0) {
       if (this.state.username.localeCompare("error:not logged in") === 0) {
         return (
-          <div style={{ position: "fixed", marginLeft: "50%", marginTop: "20%" }}>
-            <h1><b>Login to start
-        <Typewriter
-                options={{
-                  strings: ['Coding', 'Competing', 'Contributing', 'Learning', 'Growing'],
-                  autoStart: true,
-                  loop: true,
-                }}
-              /></b></h1></div>);
+          <div
+            style={{ position: "fixed", marginLeft: "50%", marginTop: "20%" }}
+          >
+            <h1>
+              <b>
+                Login to start
+                <Typewriter
+                  options={{
+                    strings: [
+                      "Coding",
+                      "Competing",
+                      "Contributing",
+                      "Learning",
+                      "Growing",
+                    ],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
+              </b>
+            </h1>
+          </div>
+        );
+      } else {
+        return (
+          <input type="image" style={submitStyle} src={load} alt="Submit" />
+        );
       }
-      else {
-        return <input type="image" style={submitStyle} src={load} alt="Submit" />
-      }
+    } else {
+      return (
+        <Searchbar
+          username={this.state.username}
+          password={this.state.password}
+          allContestCode={this.state.allContestCode}
+          allContestName={this.state.allContestName}
+          getContest={this.getContest}
+        />
+      );
     }
-    else {
-      return <Searchbar username={this.state.username} password={this.state.password} allContestCode={this.state.allContestCode} allContestName={this.state.allContestName} getContest={this.getContest} />;
-    }
-
   }
 
   render() {
-
     const cavStyle = {
       margin: 0,
       top: "35.5%",
@@ -367,9 +372,8 @@ class App extends Component {
       width: "12%",
       position: "fixed",
       outlineWidth: 0,
-      overflow: "auto"
+      overflow: "auto",
     };
-
 
     const cahStyle = {
       margin: 0,
@@ -381,7 +385,7 @@ class App extends Component {
       width: "15%",
       position: "fixed",
       outlineWidth: 0,
-      overflow: "auto"
+      overflow: "auto",
     };
 
     return (
@@ -390,17 +394,17 @@ class App extends Component {
         {this.auto_logout()}
         {this.login()}
 
-
         {/* temp login for dev purposes */}
         {/* {this.dev_login()} */}
 
         <Router>
-
           <Switch>
-
             <Route exact path="/">
-              {this.getAllContest()}
-              <Sidebar username={this.state.username} password={this.state.password} />
+              
+              <Sidebar
+                username={this.state.username}
+                password={this.state.password}
+              />
               <input type="image" style={cavStyle} src={ca_v} alt="Submit" />
               {this.render_searchbar()}
               <Donate />
@@ -408,44 +412,78 @@ class App extends Component {
 
             <Route exact path="/#">
               {this.getAllContest()}
-              <Sidebar username={this.state.username} password={this.state.password} />
+              <Sidebar
+                username={this.state.username}
+                password={this.state.password}
+              />
               <input type="image" style={cavStyle} src={ca_v} alt="Submit" />
               {this.render_searchbar()}
               <Donate />
             </Route>
 
             <Route exact path="/contest">
-              <Sidebar username={this.state.username} password={this.state.password} />
+              <Sidebar
+                username={this.state.username}
+                password={this.state.password}
+              />
               <Link to="/">
                 <input type="image" style={cahStyle} src={ca_h} alt="Submit" />
               </Link>
-              <ContestList username={this.state.username} password={this.state.password} contest_code={this.state.contest_code} contest_details={this.state.contest_details} getProblem={this.getProblem} />
+              <ContestList
+                username={this.state.username}
+                password={this.state.password}
+                contest_code={this.state.contest_code}
+                contest_details={this.state.contest_details}
+                getProblem={this.getProblem}
+              />
             </Route>
 
             <Route exact path="/problem">
-
-              <Problem problem_details={this.state.problem_details} submissions={this.state.submissions} problem_code={this.state.problem_code} />
+              <Problem
+                problem_details={this.state.problem_details}
+                submissions={this.state.submissions}
+                problem_code={this.state.problem_code}
+              />
             </Route>
 
             <Route exact path="/submit">
-              <Submit username={this.state.username} password={this.state.password} problem_details={this.state.problem_details} problem_code={this.state.problem_code} />
+              <Submit
+                username={this.state.username}
+                password={this.state.password}
+                problem_details={this.state.problem_details}
+                problem_code={this.state.problem_code}
+              />
             </Route>
 
             <Route exact path="/ranklist">
-              <Ranklist problem_details={this.state.problem_details} problem_code={this.state.problem_code} contest_code={this.state.contest_code} ranklist={this.state.ranklist} />
+              <Ranklist
+                problem_details={this.state.problem_details}
+                problem_code={this.state.problem_code}
+                contest_code={this.state.contest_code}
+                ranklist={this.state.ranklist}
+              />
             </Route>
 
             <Route exact path="/tags">
-              <Tags problem_details={this.state.problem_details} problem_code={this.state.problem_code} contest_code={this.state.contest_code}/>
+              <Tags
+                problem_details={this.state.problem_details}
+                problem_code={this.state.problem_code}
+                contest_code={this.state.contest_code}
+              />
             </Route>
 
+            <Route exact path="/createtag">
+              <CreateTag />
+            </Route>
           </Switch>
-
         </Router>
 
-        <Login username={this.state.username} password={this.state.password} logout={this.logout} />
-        
-      </React.StrictMode >
+        <Login
+          username={this.state.username}
+          password={this.state.password}
+          logout={this.logout}
+        />
+      </React.StrictMode>
     );
   }
 }

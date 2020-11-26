@@ -1,35 +1,29 @@
 import React, { Component } from "react";
 import "../autoCompleteText.css";
 import Fuse from "fuse.js";
+import axios from "axios";
+import {
+  Link
+} from "react-router-dom";
 
 class Tags extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tagList: [
-        "apple",
-        "google",
-        "microsoft",
-        "new",
-        "hard",
-        "dynamic programming",
-      ],
-      tags: ["new", "hard", "dynamic programming"],
+      tagList: [],
+      tags: [],
       isHidden: true,
       suggestions: [],
       text: "",
       display: [],
-
-      // input: '',
-      // output:""
     };
-    // this.handleChange = this.handleChange.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  // handleChange(e){
-
-  // 		this.setState({input: e.target.value});
-  // }
+  componentDidMount(){
+    this.fetchProblemTags();
+    this.fetchTags();
+  }
 
   onTextChanged = (e) => {
     let value = e.target.value;
@@ -67,6 +61,33 @@ class Tags extends Component {
 
     this.setState(() => ({ suggestions, text: value }));
   };
+
+
+  fetchProblemTags(){
+    axios.create({withCredentials: true})
+    .get(process.env.REACT_APP_URL + `/problem_tags`, {
+             
+    })
+    .then((res) => {
+
+      const tempTags2 = res.data.map(item => {return item[1]});
+      this.setState({tags:tempTags2});
+      console.log(res);
+    });
+  }
+
+  fetchTags(){
+    axios.create({withCredentials: true})
+    .get(process.env.REACT_APP_URL + `/tag_list`, {
+             
+    })
+    .then((res) => {
+      const tempTags = res.data.map(item => {return item[1]});
+      this.setState({tagList:tempTags});
+      console.log(res);
+    });
+  }
+
   renderSuggestions() {
     const { suggestions } = this.state;
     if (suggestions.length === 0) {
@@ -82,15 +103,30 @@ class Tags extends Component {
               border: "5px solid black",
               borderTop: "none",
               height: "10%",
-              cursor:"pointer"
+              cursor: "pointer",
             }}
             // onClick={() => this.suggestionSelected(item)}
 
             onClick={() => {
-              if (this.state.tags.includes(item) == false) {
-                this.setState({ tags: [...this.state.tags, item] });
+              if (this.state.tags.includes(item) === false) {
+          
+                var bodyFormData = new FormData();
+                bodyFormData.append('tag', item);
+
+                axios({
+                  withCredentials: true,
+                  method: "post",
+                  url: process.env.REACT_APP_URL + `/add_tag_to_problem`,
+                  data: bodyFormData,
+                  headers: { "Content-Type": "multipart/form-data" },
+                })
+                  .then((res) => {
+                    this.setState({ tags: [...this.state.tags, item] });
+                    console.log(res);
+                  });
               }
             }}
+            
             key={item}
           >
             <div
@@ -141,14 +177,26 @@ class Tags extends Component {
               paddingRight: "1vh",
               backgroundColor: "#CCCC00",
               borderRadius: "1vh",
-              cursor:"pointer"
+              cursor: "pointer",
             }}
             onClick={() => {
-              if (this.state.tags.includes(tag) == true) {
-                const idx = this.state.tags.indexOf(tag);
-                const arr = [...this.state.tags];
-                arr.splice(idx, 1);
-                this.setState({ tags: [...arr] });
+              if (this.state.tags.includes(tag) === true) {
+                //dummy data
+                var bodyFormData = new FormData();
+                bodyFormData.append('tag', tag);
+
+                axios({
+                  withCredentials: true,
+                  method: "post",
+                  url: process.env.REACT_APP_URL + `/remove_tag_from_problem`,
+                  data: bodyFormData,
+                  headers: { "Content-Type": "multipart/form-data" },
+                }) .then((res) => {
+                  const idx = this.state.tags.indexOf(tag);
+                  const arr = [...this.state.tags];
+                  arr.splice(idx, 1);
+                  this.setState({ tags: [...arr] });
+                });
               }
             }}
           >
@@ -163,7 +211,7 @@ class Tags extends Component {
     const { text } = this.state;
 
     const dStyle = {
-      margin: 0,
+      margin:"auto",
       top: "43%",
       left: "36%",
       width: "50%",
@@ -178,7 +226,7 @@ class Tags extends Component {
     };
 
     const autoCompleteText = {
-      margin: 0,
+      margin:"auto",
       top: "51%",
       left: "36%",
       width: "50%",
@@ -213,6 +261,8 @@ class Tags extends Component {
           {this.renderTags()}
         </div>
         <div style={{ display: "flex" }}>
+         
+        <Link to="/createtag">
           <div
             style={{
               maxWidth: "17vw",
@@ -220,24 +270,14 @@ class Tags extends Component {
               color: "white",
               textAlign: "center",
               padding: "3vh",
-              marginTop:"40vh"
+              margin:"auto",
+              marginTop: "40vh",
+              
             }}
           >
             <span>Create new tag</span>
           </div>
-          <div
-            style={{
-              maxWidth: "17vw",
-              marginLeft: "1vh",
-              backgroundColor: "black",
-              color: "white",
-              textAlign: "center",
-              padding: "3vh",
-              marginTop:"40vh"
-            }}
-          >
-            <span>Apply Changes</span>
-          </div>
+          </Link>
         </div>
       </div>
     );

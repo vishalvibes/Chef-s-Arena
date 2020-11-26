@@ -252,7 +252,6 @@ else{
 }
 
 
-
 function curl_get_present_contests($token, $limit){
     $ch = curl_init();
 
@@ -271,6 +270,37 @@ function curl_get_present_contests($token, $limit){
         echo 'Error:' . curl_error($ch);
     }
     curl_close($ch);
+
+    return $result;
+}
+
+function curl_get_public_tags(){
+
+
+    $redis = new Redis(); 
+    $redis->connect('localhost', 6379); 
+
+    if($redis->exists('all_public_tags') == 1){
+        $result = $redis->get('all_public_tags');
+        $redis->close();
+        return $result;
+    }
+
+    else{
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://www.codechef.com/get/tags/problems/');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        $redis->set('all_public_tags',$result, 3000);
+        $redis->close();
+        
+    }
 
     return $result;
 }
