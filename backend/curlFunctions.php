@@ -100,6 +100,28 @@ function make_curl_request_for_auth_token($code){
 
 }
 
+function curl_client_authentication(){
+    
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.codechef.com/oauth/token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"grant_type\":\"client_credentials\" , \"scope\":\"public\", \"client_id\":\"$client_id\",\"client_secret\":\"$client_secret_id\",\"redirect_uri\":\"$redirect_uri\"}");
+
+    $headers = array();
+    $headers[] = 'Content-Type: application/json';
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+    
+    return $result;
+}
+
 function curl_user_details($token){
     $ch = curl_init();
 

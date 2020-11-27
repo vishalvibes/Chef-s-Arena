@@ -9,6 +9,8 @@ import Submit from "./components/submit";
 import Ranklist from "./components/ranklist";
 import Donate from "./components/donate";
 import Tags from "./components/Tags/tags";
+import SearchTags from "./components/SearchTags/searchtags";
+import SearchTagsButton from "./components/SearchTagsButton/searchtagsbutton";
 import CreateTag from "./components/CreateTag/createtag";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -39,20 +41,9 @@ class App extends Component {
     };
     this.componentDidMount = this.componentDidMount.bind(this);
   }
-  
-  componentDidMount(){
+
+  componentDidMount() {
     this.getAllContest();
-    this.fetchPublicTags();
-  }
-
-  fetchPublicTags(){
-    axios
-          .get(`https://www.codechef.com/get/tags/problems/`, {
-
-          })
-          .then((res) => {
-            console.log(res);
-          });
   }
 
   getQueryParams = (params, url) => {
@@ -145,12 +136,11 @@ class App extends Component {
         } else {
           if (this.state.contest_fetched === 0) {
             this.setState({ contest_fetched: 1 });
-            axios.create({
-              withCredentials: true
-            })            
-              .get(process.env.REACT_APP_URL + `/contestlist`, {
-               
+            axios
+              .create({
+                withCredentials: true,
               })
+              .get(process.env.REACT_APP_URL + `/contestlist`, {})
               .then((res) => {
                 console.log(res.data);
 
@@ -191,12 +181,11 @@ class App extends Component {
           this.setState({ contest_code: code });
           this.setCookie("contest_code", code, 180);
           this.setState({ contest_details: { status: "NO" } });
-          axios.create({
-            withCredentials: true
-          })      
-            .get(process.env.REACT_APP_URL + `/contest`, {
-              
+          axios
+            .create({
+              withCredentials: true,
             })
+            .get(process.env.REACT_APP_URL + `/contest`, {})
             .then((res) => {
               this.setState({ contest_details: res.data });
               console.log(this.state.contest_details);
@@ -214,12 +203,11 @@ class App extends Component {
 
   getRanklist(code) {
     console.log("fetching ranklist");
-    axios.create({
-      withCredentials: true
-    })       
-      .get(process.env.REACT_APP_URL + `/ranklist`, {
-      
+    axios
+      .create({
+        withCredentials: true,
       })
+      .get(process.env.REACT_APP_URL + `/ranklist`, {})
       .then((res) => {
         this.setState({ ranklist: res.data });
         console.log(this.state.ranklist);
@@ -233,9 +221,10 @@ class App extends Component {
 
   getSubmissions(code) {
     console.log("fetching submissions");
-    axios.create({
-      withCredentials: true
-    })
+    axios
+      .create({
+        withCredentials: true,
+      })
       .get(process.env.REACT_APP_URL + `/submission`, {
         params: {
           username: this.state.username,
@@ -283,12 +272,11 @@ class App extends Component {
         } else {
           this.setState({ problem_code: code });
           this.setCookie("problem_code", code, 180);
-          axios.create({
-            withCredentials: true
-          })     
-            .get(process.env.REACT_APP_URL + `/problem`, {
-             
+          axios
+            .create({
+              withCredentials: true,
             })
+            .get(process.env.REACT_APP_URL + `/problem`, {})
             .then((res) => {
               this.setState({ problem_details: res.data });
               console.log(this.state.problem_details);
@@ -400,7 +388,6 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/">
-              
               <Sidebar
                 username={this.state.username}
                 password={this.state.password}
@@ -408,6 +395,7 @@ class App extends Component {
               <input type="image" style={cavStyle} src={ca_v} alt="Submit" />
               {this.render_searchbar()}
               <Donate />
+              <SearchTagsButton />
             </Route>
 
             <Route exact path="/#">
@@ -470,6 +458,10 @@ class App extends Component {
                 problem_code={this.state.problem_code}
                 contest_code={this.state.contest_code}
               />
+            </Route>
+
+            <Route exact path="/searchtags">
+              <SearchTags  username={this.state.username} />
             </Route>
 
             <Route exact path="/createtag">

@@ -88,6 +88,15 @@ function get_auth_token($code)
     return $result;
 }
 
+function get_client_token(){
+  
+    $response = json_decode(curl_client_authentication(), true);
+    $result = $response['result']['data'];
+
+    return $result;
+
+}
+
 function get_user($token)
 {
     $response = json_decode(curl_user_details($token), true);

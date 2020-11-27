@@ -371,7 +371,7 @@ $app->get('/get_public_tags', function (Request $request, Response $response, $a
 
     $result = curl_get_public_tags();
     $response->getBody()->write($result);
-    $response = $response->withHeader('Content-Type', 'application/json');
+    $response = $response->withHeader('Content-Type', 'application/json')->withHeader('Cache-Control', 'public, max-age=86400');
 
     return $response;
 });
