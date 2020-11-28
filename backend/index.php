@@ -387,7 +387,10 @@ $app->get('/public_tag_problems', function (Request $request, Response $response
 $app->post('/private_tag_problems', function (Request $request, Response $response, $args) {
 
     if (authenticate()) {
-
+        
+        $result = get_private_tag_problems($_POST['private_tags'], $_POST['offset']);
+        $response->getBody()->write($result);
+        $response = $response->withHeader('Content-Type', 'application/json');
        
     } else {
         $file = './index.html';

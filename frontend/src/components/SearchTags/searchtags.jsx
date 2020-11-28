@@ -3,6 +3,7 @@ import axios from "axios";
 import "../autoCompleteText.css";
 import Fuse from "fuse.js";
 import search from "../search.png";
+import ProblemList from "../ProblemList/problemlist";
 
 class SearchTag extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class SearchTag extends Component {
       suggestions: [],
       text: "",
       display: [],
+
+      problemSwitch: 0,
     };
     this.componentDidMount = this.componentDidMount.bind(this);
   }
@@ -225,49 +228,53 @@ class SearchTag extends Component {
       fontSize: 24,
     };
 
-    return (
-      <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
-        <div
-          style={{
-            display: "flex",
-            flex: "wrap",
-            backgroundColor: "#F0F0F0",
-            marginTop: "20vh",
-            marginBottom: "4vh",
-            overflow: "auto",
-          }}
-        >
-          {this.renderTags()}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
+    if (this.state.problemSwitch === 0) {
+      return (
+        <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              width: "50%",
-              margin: "auto",
-              marginTop: "15vh",
+              flex: "wrap",
+              backgroundColor: "#F0F0F0",
+              marginTop: "20vh",
+              marginBottom: "4vh",
+              overflow: "auto",
             }}
           >
-            <input
-              onChange={this.onTextChanged}
-              value={text}
-              style={dStyle}
-              type="text"
-              className="input"
-              placeholder="Search Tags"
-            />
-            <div style={autoCompleteText}>{this.renderSuggestions()}</div>
+            {this.renderTags()}
           </div>
-          <div onClick={() => {
-            
-          }} style={submitStyle} alt="Search">
-            🔍 Search
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "50%",
+                margin: "auto",
+                marginTop: "15vh",
+              }}
+            >
+              <input
+                onChange={this.onTextChanged}
+                value={text}
+                style={dStyle}
+                type="text"
+                className="input"
+                placeholder="Search Tags"
+              />
+              <div style={autoCompleteText}>{this.renderSuggestions()}</div>
+            </div>
+            <div onClick={()=>{
+              this.setState({problemSwitch:1});
+            }} style={submitStyle} alt="Search">
+              🔍 Search
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <ProblemList />;
+    }
   }
 }
 

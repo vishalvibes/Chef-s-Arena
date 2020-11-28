@@ -268,7 +268,7 @@ function get_problem_tags()
     return $tag_list;
 }
 
-function get_private_tag_problems($array_of_private_tags){
+function get_private_tag_problems($array_of_private_tags, $offset){
     
     include 'includes/connection.php';
     
@@ -280,17 +280,21 @@ function get_private_tag_problems($array_of_private_tags){
         $private_tags .= "'".$tag."',";
     }
     $private_tags = rtrim($private_tags, ",");
-
-    $query = "SELECT * FROM problems WHERE tag IN (SELECT tag FROM tags WHERE tag IN ('hello') AND username='chaos_') GROUP BY problem_code HAVING COUNT(tag) = 1 LIMIT 20 OFFSET 0;";
+    $username = $_COOKIE['username'];
+    //correct the count thing
+    $cnt=count($array_of_private_tags);
+    $query = "SELECT problem_code FROM problems WHERE tag  IN (SELECT tag FROM tags WHERE tag IN (".$private_tags.") AND username='".$username."') GROUP BY problem_code HAVING COUNT(tag) =".$cnt."LIMIT 20 OFFSET $offset;";
         
 
-    $stmt = $db->prepare(" ");
-
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $problem_list = $result->fetch_all();
 
     $stmt->close();
     $db->close();
 
-    return "hey";
+    return $problem_list;
 }
 
 function get_all_tags()
