@@ -12,6 +12,9 @@ class SearchTag extends Component {
       PublicTags: [],
       PrivateTags: [],
 
+      searchTagsPublic: [],
+      searchTagsPrivate: [],
+
       //searchbar things, not sorted yet
       tagList: [],
       tags: [],
@@ -59,6 +62,7 @@ class SearchTag extends Component {
           });
 
           this.setState({
+            PrivateTags: [...res.data],
             tagList: [...this.state.tagList, ...tempTags],
           });
           console.log(res);
@@ -195,6 +199,26 @@ class SearchTag extends Component {
     });
   }
 
+  handleCLick() {
+
+    const tempTags = this.state.PublicTags.map((item) => {
+      return item["tag"];
+    });
+    
+    const tempTags2 = this.state.PrivateTags.map((item) => {
+      return item[1];
+    });
+
+    this.setState({
+      searchTagsPublic: this.state.tags.filter((value) =>
+      tempTags.includes(value)
+      ),
+      searchTagsPrivate: this.state.tags.filter((value) =>
+      tempTags2.includes(value)
+      ),
+    });
+  }
+
   render() {
     const { text } = this.state;
 
@@ -264,16 +288,26 @@ class SearchTag extends Component {
               />
               <div style={autoCompleteText}>{this.renderSuggestions()}</div>
             </div>
-            <div onClick={()=>{
-              this.setState({problemSwitch:1});
-            }} style={submitStyle} alt="Search">
+            <div
+              onClick={() => {
+                this.handleCLick();
+                this.setState({ problemSwitch: 1 });
+              }}
+              style={submitStyle}
+              alt="Search"
+            >
               🔍 Search
             </div>
           </div>
         </div>
       );
     } else {
-      return <ProblemList />;
+      return (
+        <ProblemList
+          searchTagsPublic={this.state.searchTagsPublic}
+          searchTagsPrivate={this.state.searchTagsPrivate}
+        />
+      );
     }
   }
 }

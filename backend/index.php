@@ -96,7 +96,7 @@ $app->get('/contestlist', function (Request $request, Response $response, $args)
         $token = get_token_from_db();
         $result = curl_get_all_contests($token);
         $response->getBody()->write($result);
-        $response = $response->withHeader('Content-Type', 'application/json');
+        $response = $response->withHeader('Content-Type', 'application/json')->withHeader('Cache-Control', 'public, max-age=86400');
     } else {
         $file = './index.html';
         if (file_exists($file)) {
@@ -107,6 +107,7 @@ $app->get('/contestlist', function (Request $request, Response $response, $args)
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
     }
+    
     return $response;
 });
 
@@ -114,7 +115,7 @@ $app->get('/contestlist', function (Request $request, Response $response, $args)
 $app->get('/run', function (Request $request, Response $response, $args) {
 
     if (isset($_GET['username']) and isset($_GET['password'])) {
-        // $payload = json_encode(make_ide_run_api_request($args['userName'], $body));
+
         $token = get_token_from_db($_GET['username'], $_GET['password']);
         $payload = curl_run($_GET['code'], $token);
 
@@ -388,8 +389,9 @@ $app->post('/private_tag_problems', function (Request $request, Response $respon
 
     if (authenticate()) {
         
-        $result = get_private_tag_problems($_POST['private_tags'], $_POST['offset']);
-        $response->getBody()->write($result);
+        $result = get_private_tag_problems(json_decode($_POST['private_tags']), $_POST['offset']);
+        // $result=$_POST['offset'];
+        $response->getBody()->write(json_encode($result));
         $response = $response->withHeader('Content-Type', 'application/json');
        
     } else {

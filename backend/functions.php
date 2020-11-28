@@ -283,7 +283,7 @@ function get_private_tag_problems($array_of_private_tags, $offset){
     $username = $_COOKIE['username'];
     //correct the count thing
     $cnt=count($array_of_private_tags);
-    $query = "SELECT problem_code FROM problems WHERE tag  IN (SELECT tag FROM tags WHERE tag IN (".$private_tags.") AND username='".$username."') GROUP BY problem_code HAVING COUNT(tag) =".$cnt."LIMIT 20 OFFSET $offset;";
+    $query = "SELECT problem_code FROM problems WHERE tag  IN (SELECT tag FROM tags WHERE tag IN (".$private_tags.") AND username='".$username."') GROUP BY problem_code HAVING COUNT(tag) =".$cnt." LIMIT 20 OFFSET $offset;";
         
 
     $stmt = $db->prepare($query);
