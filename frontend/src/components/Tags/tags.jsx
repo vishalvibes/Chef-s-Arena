@@ -256,6 +256,7 @@ class Tags extends Component {
             flex: "wrap",
             backgroundColor: "#F0F0F0",
             marginBottom: "4vh",
+            overflow:"auto"
           }}
         >
           {this.renderTags()}

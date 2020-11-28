@@ -91,7 +91,7 @@ function get_auth_token($code)
 function get_client_token(){
   
     $response = json_decode(curl_client_authentication(), true);
-    $result = $response['result']['data'];
+    $result = $response['result']['data']['access_token'];
 
     return $result;
 
@@ -268,6 +268,30 @@ function get_problem_tags()
     return $tag_list;
 }
 
+function get_private_tag_problems($array_of_private_tags){
+    
+    include 'includes/connection.php';
+    
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    }
+    $private_tags = "";
+    foreach($array_of_private_tags as $tag){
+        $private_tags .= "'".$tag."',";
+    }
+    $private_tags = rtrim($private_tags, ",");
+
+    $query = "SELECT * FROM problems WHERE tag IN (SELECT tag FROM tags WHERE tag IN ('hello') AND username='chaos_') GROUP BY problem_code HAVING COUNT(tag) = 1 LIMIT 20 OFFSET 0;";
+        
+
+    $stmt = $db->prepare(" ");
+
+
+    $stmt->close();
+    $db->close();
+
+    return "hey";
+}
 
 function get_all_tags()
 {

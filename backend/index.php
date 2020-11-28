@@ -367,6 +367,43 @@ $app->post('/remove_tag_from_problem', function (Request $request, Response $res
 });
 
 
+$app->get('/public_tag_problems', function (Request $request, Response $response, $args) {
+
+    if (authenticate()) {
+        $token=$token = get_token_from_db();
+    }
+    else {
+        $token=get_client_token();
+    }
+    
+    $result = curl_public_tag_problem_list($_GET['filter'], $_GET['offset'], $token);
+    $response->getBody()->write($result);
+    $response = $response->withHeader('Content-Type', 'application/json');
+
+    return $response;
+});
+
+
+$app->post('/private_tag_problems', function (Request $request, Response $response, $args) {
+
+    if (authenticate()) {
+
+       
+    } else {
+        $file = './index.html';
+        if (file_exists($file)) {
+            $response->getBody()->write(file_get_contents($file));
+            $response = $response->withHeader('Content-Type', 'text/html');
+            return $response;
+        } else {
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+    }
+
+    return $response;
+});
+
+
 $app->get('/get_public_tags', function (Request $request, Response $response, $args) {
 
     $result = curl_get_public_tags();

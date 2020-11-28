@@ -102,7 +102,21 @@ function make_curl_request_for_auth_token($code){
 
 function curl_client_authentication(){
     
+
+$redis = new Redis(); 
+$redis->connect('localhost', 6379); 
+
+if($redis->exists('client_authentication') == 1){
+    $result = $redis->get('client_authentication');
+    $redis->close();
+    return $result;
+}
+
+else{
     $ch = curl_init();
+    $client_id = $_ENV["HTTP_CLIENT_ID"];
+    $client_secret_id = $_ENV["HTTP_CLIENT_SECRET_ID"];
+    $redirect_uri = $_ENV["HTTP_REDIRECT_URI"];
 
     curl_setopt($ch, CURLOPT_URL, 'https://api.codechef.com/oauth/token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -118,8 +132,12 @@ function curl_client_authentication(){
         echo 'Error:' . curl_error($ch);
     }
     curl_close($ch);
-    
+
+    $redis->set('client_authentication',$result, 1800);
+    $redis->close();   
+
     return $result;
+}
 }
 
 function curl_user_details($token){
@@ -212,6 +230,32 @@ function curl_contest_details($contest, $token){
 
     return $result;
 }
+
+
+function curl_public_tag_problem_list($filter, $offset,$token){
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.codechef.com/tags/problems?filter='.$filter.'&limit=20&offset='.$offset.'');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+    $headers = array();
+    $headers[] = 'Accept: application/json';
+    $headers[] = 'Authorization: Bearer '.$token;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+
+    return $result;
+}
+
+
+
 
 function curl_ranklist($contest, $token){
     $ch = curl_init();

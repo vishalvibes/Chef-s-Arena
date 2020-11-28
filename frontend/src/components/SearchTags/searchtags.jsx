@@ -12,7 +12,7 @@ class SearchTag extends Component {
       PrivateTags: [],
 
       //searchbar things, not sorted yet
-      tagList: ["hello", "hellodirty", "hellodirtybuffalo"],
+      tagList: [],
       tags: [],
       isHidden: true,
       suggestions: [],
@@ -93,8 +93,8 @@ class SearchTag extends Component {
       //implementing fuzzy search
       const fuse = new Fuse(this.state.display, {});
       let fuse_search = fuse.search(value);
-      let result = fuse_search.map((a) => a.item);
-      suggestions = result.slice(0, 4);
+      let result = fuse_search.map((a) => a.item).slice(0, 4);
+      suggestions = result;
     }
 
     this.setState(() => ({ suggestions, text: value }));
@@ -234,6 +234,7 @@ class SearchTag extends Component {
             backgroundColor: "#F0F0F0",
             marginTop: "20vh",
             marginBottom: "4vh",
+            overflow: "auto",
           }}
         >
           {this.renderTags()}
@@ -259,7 +260,9 @@ class SearchTag extends Component {
             />
             <div style={autoCompleteText}>{this.renderSuggestions()}</div>
           </div>
-          <div style={submitStyle} alt="Search">
+          <div onClick={() => {
+            
+          }} style={submitStyle} alt="Search">
             🔍 Search
           </div>
         </div>
