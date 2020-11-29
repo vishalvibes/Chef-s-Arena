@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "../autoCompleteText.css";
+import { Redirect } from "react-router-dom";
 
 class ProblemList extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class ProblemList extends Component {
       PrivateProblems: [],
       offsetPublic: 0,
       offsetPrivate: 0,
+      refresh: 0,
     };
     this.componentDidMount = this.componentDidMount.bind(this);
   }
@@ -18,17 +20,7 @@ class ProblemList extends Component {
   componentDidMount() {
     this.fetchPublicProblems();
     this.fetchPrivateProblems();
-
-    // console.log(this.props.searchTagsPublic);
-    // console.log(this.props.searchTagsPrivate);
   }
-
-  /*
-
-  /private_tag_problems
-  /public_tag_problems
-
-*/
 
   fetchPublicProblems() {
     if (this.props.searchTagsPublic.length > 0) {
@@ -39,26 +31,32 @@ class ProblemList extends Component {
       }
       filter = filter.slice(0, -1);
 
-      axios({ withCredentials: true })
+      axios
+        .create({ withCredentials: true })
         .get(process.env.REACT_APP_URL + `/public_tag_problems`, {
           params: {
             filter: filter,
-            offset: this.state.offset,
+            offset: this.state.offsetPublic,
           },
         })
         .then((res) => {
-          console.log(res);
+          let temparr = [];
+          for (var k in res.data.result.data.content) temparr.push(k);
+          this.setState({ PublicProblems: temparr });
+          this.setState({ refresh: 1 });
+          // console.log(this.state.PublicProblems);
         });
-
-      console.log(filter);
     }
   }
 
   fetchPrivateProblems() {
     if (this.props.searchTagsPrivate.length > 0) {
       var bodyFormData = new FormData();
-      bodyFormData.append("private_tags", JSON.stringify(this.props.searchTagsPrivate));
-      bodyFormData.append("offset", JSON.stringify(this.state.offsetPublic));
+      bodyFormData.append(
+        "private_tags",
+        JSON.stringify(this.props.searchTagsPrivate)
+      );
+      bodyFormData.append("offset", JSON.stringify(this.state.offsetPrivate));
 
       axios({
         withCredentials: true,
@@ -67,15 +65,41 @@ class ProblemList extends Component {
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
       }).then((res) => {
-        console.log(res);
+        this.setState({ PrivateProblems: res.data, refresh: 1 });
+        // console.log(this.state.PrivateProblems);
       });
     }
   }
 
-  renderProblems() {}
+  renderProblems() {
+    if (
+      this.props.searchTagsPublic.length > 0 &&
+      this.props.searchTagsPrivate.length > 0
+    ) {
+      return this.state.PublicProblems.filter((x) =>
+        this.state.PrivateProblems.includes(x)
+      ).map((item) => <div style={{cursor:"pointer"}} onCLick={()=>{
+        // <Problem
+        //         problem_details={this.state.problem_details}
+        //         submissions={this.state.submissions}
+        //         problem_code={this.state.problem_code}
+        //       />
+
+      }}>{item}</div>);
+    } else if (this.props.searchTagsPublic.length > 0) {
+      return this.state.PublicProblems.map((item) => <div>{item}</div>);
+    } else {
+      return this.state.PrivateProblems.map((item) => <div>{item}</div>);
+    }
+
+  }
 
   render() {
-    return <div style={{ fontSize: "1.5em", fontWeight: "bold" }}></div>;
+    return (
+      <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+        {this.renderProblems()}
+      </div>
+    );
   }
 }
 

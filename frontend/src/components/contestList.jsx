@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import {
-  Link,
-  Redirect
-} from "react-router-dom";
-import Timer from "./timer"
-import Typewriter from 'typewriter-effect';
+import { Link, Redirect } from "react-router-dom";
+import Timer from "./timer";
+import Typewriter from "typewriter-effect";
 
 class ContestList extends Component {
   constructor(props) {
@@ -12,12 +9,11 @@ class ContestList extends Component {
     this.state = {
       isHidden: true,
       suggestions: [],
-      text: ""
+      text: "",
     };
   }
 
   render_table() {
-
     const listStyle = {
       display: "flex",
       flexDirection: "column",
@@ -30,49 +26,82 @@ class ContestList extends Component {
       fontSize: 24,
       position: "fixed",
       overflow: "auto",
-      textAlign: "left"
+      textAlign: "left",
     };
 
     if (this.props.contest_details.status === "NO") {
       if (this.props.contest_code.localeCompare("error:nothing") === 0) {
-        return <Redirect to="/" />
-      }
-      else {
+        return <Redirect to="/" />;
+      } else {
         return (
-          <h4><b><div style={{ position: "fixed", marginLeft: "46%", marginTop: "14.5%" }}>
-            <h1><b>Wait while we load the
-      <Typewriter
-                options={{
-                  strings: ['Problems', 'Thrill', 'Timer', 'Learning', 'Anexity'],
-                  autoStart: true,
-                  loop: true,
+          <h4>
+            <b>
+              <div
+                style={{
+                  position: "fixed",
+                  marginLeft: "46%",
+                  marginTop: "14.5%",
                 }}
-              /></b></h1></div></b></h4>
-        )
+              >
+                <h1>
+                  <b>
+                    Wait while we load the
+                    <Typewriter
+                      options={{
+                        strings: [
+                          "Problems",
+                          "Thrill",
+                          "Timer",
+                          "Learning",
+                          "Anexity",
+                        ],
+                        autoStart: true,
+                        loop: true,
+                      }}
+                    />
+                  </b>
+                </h1>
+              </div>
+            </b>
+          </h4>
+        );
       }
-    }
-    else {
+    } else {
       return (
         <div style={listStyle}>
           <table style={{}}>
             <tr
               style={{
                 backgroundColor: "black",
-                color: "white"
+                color: "white",
               }}
             >
               <th>Problem Code</th>
               <th>Submissions</th>
             </tr>
 
-            {
-
-              this.props.contest_details.result.data.content.problemsList.map(contest => { return (<tr><Link to='/problem'><td onClick={this.props.getProblem.bind(this, contest.problemCode)}>{contest.problemCode}</td></Link><td>{contest.successfulSubmissions}</td></tr>) })
-            }
-
+            {this.props.contest_details.result.data.content.problemsList.map(
+              (contest) => {
+                return (
+                  <tr>
+                    <Link to="/problem">
+                      <td
+                        onClick={this.props.getProblem.bind(
+                          this,
+                          contest.problemCode
+                        )}
+                      >
+                        {contest.problemCode}
+                      </td>
+                    </Link>
+                    <td>{contest.successfulSubmissions}</td>
+                  </tr>
+                );
+              }
+            )}
           </table>
         </div>
-      )
+      );
     }
   }
 
@@ -83,8 +112,6 @@ class ContestList extends Component {
     // }
   }
   render() {
-
-
     const buttonStyle = {
       backgroundColor: "black" /* Green */,
       border: "2.5px solid black",
@@ -97,9 +124,8 @@ class ContestList extends Component {
       display: "inline-block",
       fontWeight: "Bold",
       fontSize: 24,
-      outlineWidth: 0
+      outlineWidth: 0,
     };
-
 
     return (
       <div>
@@ -108,7 +134,7 @@ class ContestList extends Component {
         <Link to="/ranklist">
           <button style={buttonStyle} type="button">
             Ranklist
-        </button>
+          </button>
         </Link>
 
         <Timer contest_details={this.props.contest_details} />
