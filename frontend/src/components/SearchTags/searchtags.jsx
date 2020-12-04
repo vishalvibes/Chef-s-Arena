@@ -200,21 +200,20 @@ class SearchTag extends Component {
   }
 
   handleCLick() {
-
     const tempTags = this.state.PublicTags.map((item) => {
       return item["tag"];
     });
-    
+
     const tempTags2 = this.state.PrivateTags.map((item) => {
       return item[1];
     });
 
     this.setState({
       searchTagsPublic: this.state.tags.filter((value) =>
-      tempTags.includes(value)
+        tempTags.includes(value)
       ),
       searchTagsPrivate: this.state.tags.filter((value) =>
-      tempTags2.includes(value)
+        tempTags2.includes(value)
       ),
     });
   }
@@ -304,6 +303,8 @@ class SearchTag extends Component {
     } else {
       return (
         <ProblemList
+          setContestCode={this.props.setContestCode}
+          getProblem={this.props.getProblem}
           searchTagsPublic={this.state.searchTagsPublic}
           searchTagsPrivate={this.state.searchTagsPrivate}
         />

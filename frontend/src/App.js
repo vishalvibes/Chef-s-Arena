@@ -40,6 +40,7 @@ class App extends Component {
       submissions: { status: "NO" },
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.setContestCode = this.setContestCode.bind(this);
   }
 
   componentDidMount() {
@@ -171,6 +172,12 @@ class App extends Component {
     }
   }
 
+  setContestCode(){
+    this.setState({ contest_code: "PRACTICE" });
+    this.setCookie("contest_code", "PRACTICE", 180);
+    console.log("practice set");
+  }
+
   getContest(code) {
     if (this.state.username.localeCompare("error:not logged in") === 0) {
     } else {
@@ -281,7 +288,7 @@ class App extends Component {
               this.setState({ problem_details: res.data });
               console.log(this.state.problem_details);
               if (res.data.status.localeCompare("OK") === 0) {
-                console.log("recieved problem");
+                console.log(res);
                 this.getSubmissions(code);
               }
             });
@@ -461,7 +468,7 @@ class App extends Component {
             </Route>
 
             <Route exact path="/searchtags">
-              <SearchTags  username={this.state.username} />
+              <SearchTags setContestCode={this.setContestCode} getProblem={this.getProblem} username={this.state.username} />
             </Route>
 
             <Route exact path="/createtag">

@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 class ProblemList extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       Results: [],
       PublicProblems: [],
@@ -13,8 +14,15 @@ class ProblemList extends Component {
       offsetPublic: 0,
       offsetPrivate: 0,
       refresh: 0,
+      redirect: null,
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
   }
 
   componentDidMount() {
@@ -78,26 +86,54 @@ class ProblemList extends Component {
     ) {
       return this.state.PublicProblems.filter((x) =>
         this.state.PrivateProblems.includes(x)
-      ).map((item) => <div style={{cursor:"pointer"}} onCLick={()=>{
-        // <Problem
-        //         problem_details={this.state.problem_details}
-        //         submissions={this.state.submissions}
-        //         problem_code={this.state.problem_code}
-        //       />
-
-      }}>{item}</div>);
+      ).map((item) => (
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            this.props.setContestCode().then(() => {
+              this.props.getProblem(item).then(() => {
+                this.setState({ redirect: "/problem" });
+              });
+            });
+          }}
+        >
+          {item}
+        </div>
+      ));
     } else if (this.props.searchTagsPublic.length > 0) {
-      return this.state.PublicProblems.map((item) => <div>{item}</div>);
+      return this.state.PublicProblems.map((item) => (
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            this.props.setContestCode();
+            this.props.getProblem(item);
+            this.setState({ redirect: "/problem" });
+          }}
+        >
+          {item}
+        </div>
+      ));
     } else {
-      return this.state.PrivateProblems.map((item) => <div>{item}</div>);
+      return this.state.PrivateProblems.map((item) => (
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            this.props.setContestCode();
+            this.props.getProblem(item);
+            this.setState({ redirect: "/problem" });
+          }}
+        >
+          {item}
+        </div>
+      ));
     }
-
   }
 
   render() {
     return (
       <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
         {this.renderProblems()}
+        {this.renderRedirect()}
       </div>
     );
   }

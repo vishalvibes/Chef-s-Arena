@@ -107,9 +107,6 @@ class Problem extends Component {
                         height: "10%"
                     }} className="dropbtn">Recent Submissions</button>
                     <div className="dropdown-content">
-                        {/* <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a> */}
                         {this.render_submissions()}
                     </div>
                 </div>
