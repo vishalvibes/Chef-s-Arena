@@ -1,29 +1,19 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-class Donate extends Component {
+class SearchTagsButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
-
-  donate() {
-    console.log("donate");
-
-
-    window.location.href = "https://rzp.io/l/0mDHR3P";
-  }
-
 
   render() {
-
-       const buttonStyle = {
+    const buttonStyle = {
       backgroundColor: "black" /* Green */,
       border: "5px solid black",
       color: "white",
       padding: "0px 32px",
-      marginLeft: "36%",
+      marginLeft: "56.2%",
       top: "0%",
       textAlign: "center",
       height: "10%",
@@ -33,18 +23,19 @@ class Donate extends Component {
       fontWeight: "Bold",
       fontSize: 24,
       outlineWidth: 0,
-      position: "fixed"
+      position: "fixed",
     };
 
-      return (
-
+    return (
       <div>
-          <button onClick={this.donate} style={buttonStyle} type="button" > 💖 Donate </button>
+        <Link to="searchtags">
+          <button style={buttonStyle} type="button">
+          🔍 Search Tags
+          </button>
+        </Link>
       </div>
-          
-      );
-    }
-
+    );
   }
+}
 
-export default Donate;
+export default SearchTagsButton;

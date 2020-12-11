@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import "./hover.css";
-require('dotenv').config();
+require("dotenv").config();
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   login() {
     console.log("get redirect from server");
     console.log(process.env.REACT_APP_URL);
-
 
     window.location.href = process.env.REACT_APP_URL + "/login";
   }
@@ -34,7 +31,7 @@ class Login extends Component {
       fontWeight: "Bold",
       fontSize: 24,
       outlineWidth: 0,
-      position: "fixed"
+      position: "fixed",
     };
 
     const logoutStyle = {
@@ -50,33 +47,35 @@ class Login extends Component {
       fontWeight: "Bold",
       fontSize: 24,
       outlineWidth: 0,
-      position: "fixed"
+      position: "fixed",
     };
 
     if (this.props.username.localeCompare("error:not logged in") === 0) {
       return (
         <div>
           <button onClick={this.login} style={buttonStyle} type="button">
-            Login
-        </button>
+            🔒 Login
+          </button>
         </div>
       );
-    }
-
-
-    else {
+    } else {
       return (
         <div className="dropdown">
           <button className="dropbtn" style={buttonStyle} type="button">
             {this.props.username}
           </button>
           <div className="dropdown-content">
-            <a style={logoutStyle} onClick={this.props.logout.bind(this)} href="#">Logout</a>
+            <div
+              style={logoutStyle}
+              onClick={this.props.logout.bind(this)}
+              href="#"
+            >
+              Logout
+            </div>
           </div>
         </div>
       );
     }
-
   }
 }
 

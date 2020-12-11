@@ -7,7 +7,6 @@ import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-import CodeMirror from 'react-codemirror2';
 require('codemirror/mode/xml/xml');
 require('codemirror/mode/javascript/javascript');
 

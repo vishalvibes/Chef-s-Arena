@@ -4,15 +4,15 @@
   "description": "Chef's Arena is a website I made for CodeChef backend developer hiring hackathon",
   "main": "index.js",
   "scripts": {
-  	"test-client":"cd frontend && npm run test",
-  	"test-server":"cd backend && vendor/bin/phpunit",
+    "test-client": "cd frontend && npm run test",
+    "test-server": "cd backend && vendor/bin/phpunit",
     "test": "npm run test-server && npm run test-client",
     "build": "rm -rfv deployment/*;npm run build --prefix frontend;cp -rfv frontend/build/* deployment;cp -rfv backend/* deployment;cp -rfv backend/.htaccess deployment;",
     "client": "cd frontend && REACT_APP_URL=http://localhost:8000 npm start",
     "server": "cd backend && php -S localhost:8000",
     "install_client": "cd frontend && npm install",
     "install_server": "cd backend && composer install",
-    "install": "npm run install_client;npm run install_server;",
+    "install_all": "npm run install_client;npm run install_server;",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Vishal Pratap Singh",

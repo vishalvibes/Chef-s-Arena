@@ -1,13 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
 
 class Timer extends Component {
     constructor(props) {
@@ -27,13 +18,13 @@ class Timer extends Component {
             const curr = (new Date()).getTime();
             const diff = curr > end ? 0 : curr > start ? end - curr : start - curr;
 
-            if (this.state.days != Math.floor(diff / (1000 * 60 * 60 * 24))) {
+            if (this.state.days !== Math.floor(diff / (1000 * 60 * 60 * 24))) {
                 this.setState({ days: Math.floor(diff / (1000 * 60 * 60 * 24)) });
             }
-            if (this.state.hours != Math.floor((diff / (1000 * 60 * 60)) % 24)) {
+            if (this.state.hours !== Math.floor((diff / (1000 * 60 * 60)) % 24)) {
                 this.setState({ hours: Math.floor((diff / (1000 * 60 * 60)) % 24) });
             }
-            if (this.state.minutes != Math.floor((diff / 1000 / 60) % 60)) {
+            if (this.state.minutes !== Math.floor((diff / 1000 / 60) % 60)) {
                 this.setState({ minutes: Math.floor((diff / 1000 / 60) % 60) });
             }
         }
@@ -74,7 +65,6 @@ class Timer extends Component {
         const start = (new Date(this.props.contest_details.result.data.content.startDate)).getTime();
         const end = (new Date(this.props.contest_details.result.data.content.endDate)).getTime();
         const curr = (new Date()).getTime();
-        const diff = curr > end ? 0 : curr > start ? end - curr : start - curr;
 
         if (curr >= end) {
             return (
@@ -176,21 +166,6 @@ class Timer extends Component {
     }
 
     render() {
-        const buttonStyle = {
-            top: "30%",
-            backgroundColor: "black" /* Green */,
-            border: "none",
-            color: "white",
-            padding: "15px 32px",
-            marginLeft: "81.2%",
-            textAlign: "center",
-            textDecoration: "none",
-            display: "inline-block",
-            fontWeight: "Bold",
-            position: "fixed",
-            fontSize: 24,
-            outlineWidth: 0
-        };
 
         return (
             <div style={{ position: "fixed", marginTop: "13%", marginLeft: "2.4%", width: "20%" }}>

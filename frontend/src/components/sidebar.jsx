@@ -1,15 +1,4 @@
 import React, { Component } from "react";
-import Recent from "./recentlySearched";
-import ImportantLinks from "./importantLinks";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
-
 
 class Sidebar extends Component {
   render() {
